@@ -10,6 +10,14 @@ void IniciarMetricas(Metricas *m, const char *nome) {
     m->tempo_ms = 0.0;
 }
 
+void ImprimirVetor(const int *numeros, int tam) {
+    printf("\nNumeros no Vetor Ordenado: {");
+    for (int i = 0; i < tam; i++) {
+        printf("%d ", numeros[i]);
+    }
+    printf("}\n");
+}
+
 void ExibirMetricas(const Metricas *m, int tam) {
     printf("\n===== Relatorio de Desempenho =====\n");
     printf("Algoritmo:    %s\n", m->nome);

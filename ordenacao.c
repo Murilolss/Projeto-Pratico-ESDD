@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <unistd.h>
 #include "algoritmo.c"
@@ -46,44 +47,129 @@ void menuSelecao(int *vetor, int tam)
             ExibirMetricas(&m, tam);
 
             free(copia);
-            sleep(3);
+            sleep(5);
         }
         break;
 
         case 2:
-            InsertionSort(vetor, tam);
+        {
+            int *copia = malloc(tam * sizeof(int));
+            memcpy(copia, vetor, tam * sizeof(int));
 
-            sleep(3);
+            Metricas m;
+            IniciarMetricas(&m, "InsertionSort");
+
+            clock_t inicio = clock();
+            InsertionSort(copia, tam, &m);
+            clock_t fim = clock();
+            m.tempo_ms = (double)(fim - inicio) * 1000.0 / CLOCKS_PER_SEC;
+            
+            ImprimirVetor(copia, tam);
+            ExibirMetricas(&m, tam);
+            sleep(5);
+        }
             break;
 
         case 3:
-            MergesortIterativo(vetor, tam);
+        {
 
-            sleep(3);
+            int *copia = malloc(tam * sizeof(int));
+            memcpy(copia, vetor, tam * sizeof(int));
+            
+            Metricas m;
+            IniciarMetricas(&m, "Mergesort Iterativo");
+            
+            clock_t inicio = clock();
+            MergesortIterativo(vetor, tam, &m);
+            clock_t fim = clock();
+
+            m.tempo_ms = (double)(fim - inicio) * 1000.0 / CLOCKS_PER_SEC;
+            
+            ImprimirVetor(copia, tam);
+            ExibirMetricas(&m, tam);
+            sleep(5);
+        }
             break;
 
         case 4:
-            MergesortRecursivo(vetor, tam);
+        {
+            int *copia = malloc(tam * sizeof(int));
+            memcpy(copia, vetor, tam * sizeof(int));
+            
+            Metricas m;
+            IniciarMetricas(&m, "Mergesort Recursivo");
+            
+            clock_t inicio = clock();
+            MergesortRecursivo(vetor, tam, &m);
+            clock_t fim = clock();
 
-            sleep(3);
+            m.tempo_ms = (double)(fim - inicio) * 1000.0 / CLOCKS_PER_SEC;
+            
+            ImprimirVetor(copia, tam);
+            ExibirMetricas(&m, tam);
+            sleep(5);
+        }
             break;
 
         case 5:
-            QuickSortInicioMain(vetor, tam);
+        {
+            int *copia = malloc(tam * sizeof(int));
+            memcpy(copia, vetor, tam * sizeof(int));
+            
+            Metricas m;
+            IniciarMetricas(&m, "QuickSort Inicio");
 
-            sleep(3);
+            clock_t inicio = clock();
+            QuickSortInicioMain(vetor, tam, &m);
+            clock_t fim = clock();
+
+            m.tempo_ms = (double)(fim - inicio) * 1000.0 / CLOCKS_PER_SEC;
+
+            ImprimirVetor(copia, tam);
+            ExibirMetricas(&m, tam);
+            sleep(5);
+        }
+
             break;
 
         case 6:
-            QuickSortFimMain(vetor, tam);
+            {
+            int *copia = malloc(tam * sizeof(int));
+            memcpy(copia, vetor, tam * sizeof(int));
+            
+            Metricas m;
+            IniciarMetricas(&m, "QuickSort Fim");
 
-            sleep(3);
+            clock_t inicio = clock();
+            QuickSortFimMain(vetor, tam, &m);
+            clock_t fim = clock();
+
+            m.tempo_ms = (double)(fim - inicio) * 1000.0 / CLOCKS_PER_SEC;
+
+            ImprimirVetor(copia, tam);
+            ExibirMetricas(&m, tam);
+            sleep(5);
+        }
             break;
 
         case 7:
-            SelectionSort(vetor, tam);
+            {
+            int *copia = malloc(tam * sizeof(int));
+            memcpy(copia, vetor, tam * sizeof(int));
+            
+            Metricas m;
+            IniciarMetricas(&m, "SelectionSort");
 
-            sleep(3);
+            clock_t inicio = clock();
+            SelectionSort(vetor, tam, &m);
+            clock_t fim = clock();
+
+            m.tempo_ms = (double)(fim - inicio) * 1000.0 / CLOCKS_PER_SEC;
+
+            ImprimirVetor(copia, tam);
+            ExibirMetricas(&m, tam);
+            sleep(5);
+        }
             break;
 
         case 8:

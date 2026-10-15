@@ -1,14 +1,20 @@
+#define __USE_MINGW_ANSI_STDIO 1 // habilita %lld no MinGW (precisa vir antes do stdio.h)
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include "alocarVet.c"
 #include "ordenacao.c"
+#include "metricas.c"
 
 void menu(int *vetor, int tam);
 
 int main()
 {
     int tam;
+
+    printf("Digite o Tamanho do vetor: ");
+    scanf("%d", &tam);
+
     int *numeros = (int *)malloc(tam * sizeof(int));
 
     if (numeros == NULL)
@@ -17,11 +23,10 @@ int main()
         return 1;
     }
 
-    printf("Digite o Tamanho do vetor: ");
-    scanf("%d", &tam);
     alocarVetor(numeros, tam);
 
     menu(numeros, tam);
+    free(numeros);
     return 0;
 }
 
@@ -32,7 +37,7 @@ void menu(int *vetor, int tam)
     do
     {
         system("cls");
-        printf("---- Selecione uma Da Opcoes ----\n");
+        printf("---- Selecion uma Da Opcoes ----\n");
         printf("1 - Metodos de Ordenacao\n");
         printf("2 - Metodos de Busca\n");
         printf("3 - Mostrar Vetor\n");

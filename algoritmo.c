@@ -26,37 +26,30 @@ void BubbleSort(int *numeros, int tam, Metricas *m)
 
 }
 
-void InsertionSort(int *numeros, int tam)
-{
+void InsertionSort(int *numeros, int tam, Metricas *m){
     for (int i = 1; i < tam; i++)
     {
         int chave = numeros[i];
         int j = i - 1;
 
         // Desloca elementos maiores que a chave para abrir espaço
+        m->comparacoes++;
         while (j >= 0 && numeros[j] > chave)
         {
             numeros[j + 1] = numeros[j];
+            m->trocas++;
             j = j - 1;
         }
         numeros[j + 1] = chave; // Insere a chave na posição correta
     }
-
-    printf("\nNumeros no Vetor Ordenado InsertionSort: {");
-    for (int i = 0; i < tam; i++)
-    {
-        printf("%d ", numeros[i]);
-    }
-    printf("}");
 }
 
 // MergerSort Interativo
-int Menor(int a, int b)
-{
+int Menor(int a, int b){
     return (a < b) ? a : b;
 }
 
-void Intercalar(int *numeros, int esquerda, int meio, int direita)
+void Intercalar(int *numeros, int esquerda, int meio, int direita, Metricas *m)
 {
     int i, j, k;
     int n1 = meio - esquerda + 1;
@@ -79,6 +72,7 @@ void Intercalar(int *numeros, int esquerda, int meio, int direita)
     // Junta as duas partes de forma ordenada no vetor original
     while (i < n1 && j < n2)
     {
+        m->comparacoes++;
         if (V_Esquerda[i] <= V_Direita[j])
         {
             numeros[k] = V_Esquerda[i];
@@ -89,6 +83,7 @@ void Intercalar(int *numeros, int esquerda, int meio, int direita)
             numeros[k] = V_Direita[j];
             j++;
         }
+        m->trocas++; 
         k++;
     }
 
@@ -96,19 +91,20 @@ void Intercalar(int *numeros, int esquerda, int meio, int direita)
     while (i < n1)
     {
         numeros[k] = V_Esquerda[i];
+        m->trocas++; 
         i++;
         k++;
     }
     while (j < n2)
     {
         numeros[k] = V_Direita[j];
+        m->trocas++; 
         j++;
         k++;
     }
 }
 
-void MergesortIterativo(int *numeros, int tamanho)
-{
+void MergesortIterativo(int *numeros, int tamanho, Metricas *m){
     // tamanho_atual controla o tamanho dos subvetores que serão mesclados (1, 2, 4, 8...)
     for (int tamanho_atual = 1; tamanho_atual <= tamanho - 1; tamanho_atual = 2 * tamanho_atual)
     {
@@ -122,49 +118,35 @@ void MergesortIterativo(int *numeros, int tamanho)
             int direita = Menor(esquerda + 2 * tamanho_atual - 1, tamanho - 1);
 
             // Junta as duas partes criadas
-            Intercalar(numeros, esquerda, meio, direita);
+            Intercalar(numeros, esquerda, meio, direita, m);
         }
     }
-
-    printf("\nNumeros no Vetor Mergesort Iterativo: {");
-    for (int i = 0; i < tamanho; i++)
-    {
-        printf("%d ", numeros[i]);
-    }
-    printf("}");
 }
 
 // MergeSort Recursivo
 // Parte recursiva: só ordena, não imprime nada
-void MergesortRec(int *numeros, int esquerda, int direita)
+void MergesortRec(int *numeros, int esquerda, int direita, Metricas *m)
 {
     if (esquerda < direita)
     {
         int meio = esquerda + (direita - esquerda) / 2;
 
-        MergesortRec(numeros, esquerda, meio);
-        MergesortRec(numeros, meio + 1, direita);
+        MergesortRec(numeros, esquerda, meio, m);
+        MergesortRec(numeros, meio + 1, direita, m);
 
-        Intercalar(numeros, esquerda, meio, direita);
+        Intercalar(numeros, esquerda, meio, direita, m);
     }
 }
 
 // Função chamada pelo menu: ordena e imprime uma única vez
-void MergesortRecursivo(int *numeros, int tam)
+void MergesortRecursivo(int *numeros, int tam, Metricas *m)
 {
-    MergesortRec(numeros, 0, tam - 1);
-
-    printf("\nNumeros no Vetor Mergesort Recursivo: {");
-    for (int i = 0; i < tam; i++)
-    {
-        printf("%d ", numeros[i]);
-    }
-    printf("}\n");
+    MergesortRec(numeros, 0, tam - 1, m);
 }
 
 // QuickSort pivo inicio
 // Função de particionamento usando o PRIMEIRO elemento como pivo
-int particionarInicio(int *numeros, int inicio, int fim)
+int particionarInicio(int *numeros, int inicio, int fim, Metricas *m)
 {
     int pivo = numeros[inicio]; // Define o pivo como o primeiro elemento
     int i = fim + 1;            // Limite para os elementos maiores que o pivo
@@ -172,6 +154,7 @@ int particionarInicio(int *numeros, int inicio, int fim)
     // Percorre o vetor de trás para frente, até o elemento logo após o pivo
     for (int j = fim; j >= inicio + 1; j--)
     {
+        m->comparacoes++;
         if (numeros[j] > pivo)
         {
             i--;
@@ -179,6 +162,7 @@ int particionarInicio(int *numeros, int inicio, int fim)
             int temp = numeros[i];
             numeros[i] = numeros[j];
             numeros[j] = temp;
+            m->trocas++; 
         }
     }
 
@@ -186,85 +170,76 @@ int particionarInicio(int *numeros, int inicio, int fim)
     int temp = numeros[i - 1];
     numeros[i - 1] = numeros[inicio];
     numeros[inicio] = temp;
+    m->trocas++; 
 
     return (i - 1); // Retorna a posição correta do pivo
 }
 
-void QuickSortPivoInicio(int *numeros, int inicio, int fim)
+void QuickSortPivoInicio(int *numeros, int inicio, int fim, Metricas *m)
 {
     if (inicio < fim)
     {
-        int pivo = particionarInicio(numeros, inicio, fim);
-        QuickSortPivoInicio(numeros, inicio, pivo - 1);
-        QuickSortPivoInicio(numeros, pivo + 1, fim);
+        int pivo = particionarInicio(numeros, inicio, fim, m);
+        QuickSortPivoInicio(numeros, inicio, pivo - 1, m);
+        QuickSortPivoInicio(numeros, pivo + 1, fim, m);
     }
 }
 
 // QuickSort Pivo Inicio chamada main
-void QuickSortInicioMain(int *numeros, int tam)
+void QuickSortInicioMain(int *numeros, int tam, Metricas *m)
 {
-    QuickSortPivoInicio(numeros, 0, tam - 1);
-
-    printf("\nNumeros no Vetor QuickSort Pivo Inicio: {");
-    for (int i = 0; i < tam; i++)
-    {
-        printf("%d ", numeros[i]);
-    }
-    printf("}\n");
+    QuickSortPivoInicio(numeros, 0, tam - 1, m);
 }
 
 // QuickSort Pivo Fim
 // Função de particionamento usando apenas índices do vetor
-int particionarFim(int vetor[], int inicio, int fim) {
+int particionarFim(int vetor[], int inicio, int fim, Metricas *m) {
     int pivo = vetor[fim];
     int i = (inicio - 1);
 
     for (int j = inicio; j <= fim - 1; j++) {
+        m->comparacoes++;
         if (vetor[j] < pivo) {
             i++;
             // Troca direta usando uma variável temporária e índices
             int temp = vetor[i];
             vetor[i] = vetor[j];
             vetor[j] = temp;
+            m->trocas++; 
         }
     }
     // Troca o pivovô para a posição correta
     int temp = vetor[i + 1];
     vetor[i + 1] = vetor[fim];
     vetor[fim] = temp;
+    m->trocas++; 
 
     return (i + 1);
 }
 
-void QuickSortPivoFim(int *numeros, int inicio, int fim)
+void QuickSortPivoFim(int *numeros, int inicio, int fim, Metricas *m)
 {
     if (inicio < fim)
     {
-        int pivo = particionarFim(numeros, inicio, fim);
-        QuickSortPivoFim(numeros, inicio, pivo - 1);
-        QuickSortPivoFim(numeros, pivo + 1, fim);
+        int pivo = particionarFim(numeros, inicio, fim, m);
+        QuickSortPivoFim(numeros, inicio, pivo - 1, m);
+        QuickSortPivoFim(numeros, pivo + 1, fim, m);
     }
 }
 
 // QuickSort Pivo Fim chamada main
-void QuickSortFimMain(int *numeros, int tam)
+void QuickSortFimMain(int *numeros, int tam, Metricas *m)
 {
-    QuickSortPivoFim(numeros, 0, tam - 1);
-
-    printf("\nNumeros no Vetor QuickSort Pivo Fim: {");
-    for (int i = 0; i < tam; i++)
-    {
-        printf("%d ", numeros[i]);
-    }
-    printf("}\n");
+    QuickSortPivoFim(numeros, 0, tam - 1, m);
 }
 
 // SelectionSort
-void SelectionSort(int *numeros, int tam){
+void SelectionSort(int *numeros, int tam, Metricas *m){
     int i, j, posMenor, aux;
     for(i=0;i<tam-1;i++){
         posMenor = i;
         for(j=i+1;j<tam;j++){
+            m->comparacoes++;
             if(numeros[j]<numeros[posMenor])
                 posMenor = j;
         }
@@ -272,13 +247,7 @@ void SelectionSort(int *numeros, int tam){
             aux=numeros[i];
             numeros[i]=numeros[posMenor];
             numeros[posMenor]=aux;
+            m->trocas++;
         }
     }
-
-    printf("\nNumeros no Vetor QuickSort SelectionSort: {");
-    for (int i = 0; i < tam; i++)
-    {
-        printf("%d ", numeros[i]);
-    }
-    printf("}\n");
 }
