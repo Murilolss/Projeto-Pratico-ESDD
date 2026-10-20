@@ -11,5 +11,6 @@ typedef struct {
 void IniciarMetricas(Metricas *m, const char *nome);
 void ExibirMetricas(const Metricas *m, int tam);
 void ImprimirVetor(const int *numeros, int tam);
+void ExibirTabelaMetricas(const Metricas *lista, int qtd, int tam);
 
 #endif

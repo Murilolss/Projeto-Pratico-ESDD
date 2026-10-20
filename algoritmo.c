@@ -33,9 +33,11 @@ void InsertionSort(int *numeros, int tam, Metricas *m){
         int j = i - 1;
 
         // Desloca elementos maiores que a chave para abrir espaço
-        m->comparacoes++;
-        while (j >= 0 && numeros[j] > chave)
+        while (j >= 0)
         {
+            m->comparacoes++;
+            if (numeros[j] <= chave)
+                break;
             numeros[j + 1] = numeros[j];
             m->trocas++;
             j = j - 1;

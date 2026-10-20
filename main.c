@@ -37,10 +37,10 @@ void menu(int *vetor, int tam)
     do
     {
         system("cls");
-        printf("---- Selecion uma Da Opcoes ----\n");
+        printf("---- Selecione uma Da Opcoes ----\n");
         printf("1 - Metodos de Ordenacao\n");
-        printf("2 - Metodos de Busca\n");
-        printf("3 - Mostrar Vetor\n");
+        printf("2 - Mostrar Vetor\n");
+        printf("3 - Metricas\n");
         printf("4 - Encerrar Programa\n");
         printf("------------------------------\n");
         printf("Digite uma das Opcoes: ");
@@ -56,10 +56,6 @@ void menu(int *vetor, int tam)
 
         case 2:
             system("cls");
-            break;
-
-        case 3:
-            system("cls");
             printf("\nNumeros no Vetor: {");
             for (int i = 0; i < tam; i++)
             {
@@ -68,6 +64,11 @@ void menu(int *vetor, int tam)
             printf("}");
 
             sleep(3);
+            break;
+
+        case 3:
+            system("cls");
+            menuMetricas(vetor, tam);
             break;
 
         case 4:

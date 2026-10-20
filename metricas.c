@@ -27,3 +27,15 @@ void ExibirMetricas(const Metricas *m, int tam) {
     printf("Trocas:       %lld\n", m->trocas);
     printf("===================================\n");
 }
+
+void ExibirTabelaMetricas(const Metricas *lista, int qtd, int tam) {
+    printf("\n=================== Metricas dos Metodos de Ordenacao ===================\n");
+    printf("Itens no vetor: %d\n\n", tam);
+    printf("%-22s %12s %15s %15s\n", "Algoritmo", "Tempo (ms)", "Comparacoes", "Trocas");
+    printf("-------------------------------------------------------------------------\n");
+    for (int i = 0; i < qtd; i++) {
+        printf("%-22s %12.3f %15lld %15lld\n",
+               lista[i].nome, lista[i].tempo_ms, lista[i].comparacoes, lista[i].trocas);
+    }
+    printf("=========================================================================\n");
+}

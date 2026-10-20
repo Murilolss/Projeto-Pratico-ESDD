@@ -13,7 +13,7 @@ void alocarVetor(int *numeros, int tam){
 
     while (n < tam)
     {
-        numAleatorio = gerarNumeroAleatorio(1, 512);
+        numAleatorio = gerarNumeroAleatorio(1, 2048);
         if (PesqSeq(numeros, numAleatorio, tam) == -1)
         {
             numeros[n] = numAleatorio;
